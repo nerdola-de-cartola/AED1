@@ -1,3 +1,7 @@
+# Folders
+*vscode/
+*bin/
+
 # Prerequisites
 *.d
 
@@ -51,3 +55,6 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Documents
+*.pdf
