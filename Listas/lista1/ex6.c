@@ -6,19 +6,19 @@ int main(void) {
 
     scanf("%d", &consumer);
     if(consumer <= 0 || consumer >= 100000000) {
-        printf("O numero da conta deve estar entre 1 e 999999999 – programa cancelado\n");
+        printf("erro\n");
         return 0;
     }
 
     scanf("%d", &type);
     if(type <= 0 || type >= 4) {
-        printf("O tipo de consumidor deve ser 1 ou 2 ou 3 – programa cancelado\n");
+        printf("erro\n");
         return 0;
     }
 
     scanf("%lf", &consumption);
     if(consumption < 0) {
-        printf("O consumo deve ser maior ou igual a zero – programa cancelado\n");
+        printf("erro\n");
         return 0;
     }
 
@@ -40,6 +40,6 @@ int main(void) {
         }
     }
 
-    printf("Valor a ser pago para a conta informada: R$ %.2lf\n", price);
+    printf("%.2lf\n", price);
     return 0;
 }

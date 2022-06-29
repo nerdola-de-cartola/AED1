@@ -7,7 +7,7 @@ bool elementoExiste(int * v, int size, int ele);
 void uniao(int * v1, int size1, int *v2, int size2);
 void interseccao(int * v1, int size1, int *v2, int size2);
 void diferenca(int * v1, int size1, int *v2, int size2);
-void imprimeConjunto(char * str, int * v, int size);
+void imprimeConjunto(int * v, int size);
 
 
 int main(void) {
@@ -33,7 +33,7 @@ int leVetor(int ** v) {
     scanf("%d", &size);
 
     if(size < 1) {
-        printf("O numero de elementos do vetor deve ser maior do que zero – programa cancelado\n");
+        printf("erro\n");
         exit(0);
     }
 
@@ -44,7 +44,7 @@ int leVetor(int ** v) {
         if(elementoExiste(*v, size, input)) {
             (*v)[i] = input;
         } else {
-            printf("O vetor não pode ter elementos repetidos = programa cancelado\n");
+            printf("erro\n");
             exit(0);
         }
     }
@@ -79,7 +79,7 @@ void uniao(int * v1, int size1, int *v2, int size2){
         }
     }
 
-    imprimeConjunto("união", c, i);
+    imprimeConjunto(c, i);
 
     free(c);
 }
@@ -97,7 +97,7 @@ void interseccao(int * v1, int size1, int *v2, int size2) {
         }
     }
 
-    imprimeConjunto("diferença", c, i);
+    imprimeConjunto(c, i);
     free(c);
 
 }
@@ -115,17 +115,15 @@ void diferenca(int * v1, int size1, int *v2, int size2) {
         }
     }
 
-    imprimeConjunto("diferença", c, i);
+    imprimeConjunto(c, i);
     free(c);
 }
 
-void imprimeConjunto(char * str, int * v, int size) {
+void imprimeConjunto(int * v, int size) {
     int i;
 
-    printf("Vetor que representa a %s dos vetores de entrada:", str);
-
     for(i = 0; i < size; i++) {
-        printf(" %d", v[i]);
+        printf("%d ", v[i]);
     }
     printf("\n");
 }

@@ -11,7 +11,7 @@ int main(void) {
 
     for(div = menor; div >= 2; div--) {
         if(n1%div == 0 && n2%div == 0) {
-            printf("O maximo divisor comum de %d e %d é: %d\n", n1, n2, div);
+            printf("%d\n", div);
             break;
         }
     }

@@ -5,7 +5,7 @@ int main(void) {
     scanf("%d", &n);
 
     if(n <= 0) {
-        printf("O numero inteiro informado deve ser maior do que zero\n");
+        printf("erro\n");
         return 0;
     }
 
@@ -16,11 +16,10 @@ int main(void) {
         }
     }
 
-    printf("Numero %d: ", n);
     if(sum_div == n) {
         printf("perfeito\n");
     } else {
-        printf("nao perfeito\n");
+        printf("imperfeito\n");
     }
     
     return 0;
