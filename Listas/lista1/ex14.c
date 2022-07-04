@@ -7,7 +7,7 @@ int main(void) {
     int n;
     long long int f;
     scanf("%d", &n);
-    if(n <= 3 || n >= 100) {
+    if(n < 3 || n > 100) {
         printf("erro\n");
         return 0;
     }
@@ -22,7 +22,7 @@ int main(void) {
 
 
 long long int fib(int n) {
-    if(n == 1 || n == 2) return 1;
+    if(n == 1 || n == 0) return 1;
     return fib(n-1) + fib(n-2);
 }
 
@@ -32,9 +32,7 @@ void fatora(long long int n) {
     for(i = 2; n > 1;) {
         if(n%i == 0) {
             n /= i;
-
-            printf("%d", i);
-            if(n > 1) printf(" X ");
+            printf("%d ", i);
         } else {
             i++;
         }

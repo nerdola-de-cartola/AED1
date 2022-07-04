@@ -1,20 +1,20 @@
 #include <stdio.h>
 
+long long int mdc(long long int a, long long int b);
+
+
 int main(void) {
-    int n1, n2, div, menor;
+    long long int n1, n2;
 
-    scanf("%d", &n1);
-    scanf("%d", &n2);
+    scanf("%lld", &n1);
+    scanf("%lld", &n2);
 
-    menor = n1;
-    if(n2 < menor) menor = n2;
-
-    for(div = menor; div >= 2; div--) {
-        if(n1%div == 0 && n2%div == 0) {
-            printf("%d\n", div);
-            break;
-        }
-    }
+    printf("%lld\n", mdc(n1, n2));
     
     return 0;
+}
+
+long long int mdc(long long int a, long long int b) {
+    if(b == 0) return a;
+    return mdc(b, a%b);
 }
