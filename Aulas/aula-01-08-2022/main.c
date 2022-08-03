@@ -1,25 +1,34 @@
 #include "lista.h"
 
 int main(void) {
-    List l;
+    List l, t, s;
 
     l = newList();
     insertList(&l, 2);
-    insertList(&l, 55);
     insertList(&l, 1);
     insertList(&l, 1);
     insertList(&l, 21);
-    insertList(&l, 12);
     insertList(&l, -52);
-    printList(&l);
-    insertList(&l, 0);
-    printList(&l);
-    insertList(&l, 312);
-    insertList(&l, 312);
-    insertList(&l, 31251);
-    insertList(&l, -131);
-    insertList(&l, 0);
-    printList(&l);
+    
+    t = newList();
+    insertList(&t, 51);
+    insertList(&t, 1632);
+    insertList(&t, -1);
+    insertList(&t, 2);
+    insertList(&t, 52);
+
+    s = sumList(&l, &t);
+    printList(&l, CRESCENTE);
+    printList(&t, CRESCENTE);
+    printList(&s, CRESCENTE);
+
+    // if(searchList(&l, 1)) printf("Encontrei o valor 1\n");
+    // if(!searchList(&l, 15)) printf("Não encontrei o valor 15\n");
+    
+    freeList(&l);
+    freeList(&t);
+    freeList(&s);
+
 
     return 0;
 }
