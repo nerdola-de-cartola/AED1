@@ -2,110 +2,125 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-
-#define SIZE 100
-
+    
 typedef struct {
-    char name[SIZE];
-    char phone_number[SIZE];
+    char *name;
+    char *phone_number;
     int calls;
 } Person;
-
+    
 typedef struct Node {
     Person p;
     struct Node * next;
     struct Node * prev;
 } Node;
-
+    
 typedef struct List {
     Node *first;
     Node *last;
     int size;
 } List;
-
+    
+void stringCopy(char **dest, char *src) {
+    int size;
+    
+    *dest = NULL;
+    size = strlen(src) + 1;
+    
+    *dest = (char *) malloc(size * sizeof(char));
+    strcpy(*dest, src);
+}
+    
+void freePerson(Person *p) {
+    free(p->phone_number);
+    free(p->name);
+}
+    
+void freeNode(Node *n) {
+    freePerson(&n->p);
+    free(n);
+}
+    
 void error(const char *function_name) {
     printf("Erro na função %s\n", function_name);
     exit(0);
 }
-
+    
 List newList() {
     List p;
-
+    
     p.first = NULL;
     p.last = NULL;
     p.size = 0;
-
+    
     return p;
 }
-
+    
 void printList(List *l) {
     Node *p = NULL;
-
+    
     for(p = l->first; p != NULL; p = p->next) {
         printf("%s - %s %d\n", p->p.name, p->p.phone_number, p->p.calls);
     }
 }
-
-void copyPerson(Person *dest, Person src) {
-    dest->calls = src.calls;
-    strcpy(dest->name, src.name);
-    strcpy(dest->phone_number, src.phone_number);
-}
-
-void sortList(List *l) {
-    Node *p = NULL;
-    Node *q = NULL;
-    Node *maior = NULL;
-    Person swap;
     
-    for(p = l->first; p->next != NULL; p = p->next) {
-        maior = p;
-
-        for(q = p->next; q != NULL; q = q->next) {
-            if(q->p.calls > maior->p.calls) maior = q;
-        }
-
-        if(maior != p) {
-            copyPerson(&swap, p->p);
-            copyPerson(&p->p, maior->p);
-            copyPerson(&maior->p, swap);
-        }
-    }
-}
-
 void insertList(List *l, char *name, char *phone_number, int calls) {
     Node *new = NULL;
     Node *p = NULL;
-
+    
     new = (Node *) malloc(sizeof(Node));
     if(new == NULL) error("insertList");
-
-    strcpy(new->p.name, name);
-    strcpy(new->p.phone_number, phone_number);
+    stringCopy(&new->p.name, name);
+    stringCopy(&new->p.phone_number, phone_number);
     new->p.calls = calls;
-
-    if(l->size == 0) l->first = new;
-    else l->last->next = new;
-
-    new->prev = l->last;
-    new->next = NULL;
-    l->last = new;
+    
+    
+    for(p = l->first; true; p = p->next) {
+        if(l->size == 0) {
+            l->first = new;
+            l->last = new;
+            new->next = NULL;
+            new->prev = NULL;
+            break;
+        } 
+    
+        if(calls > p->p.calls) {
+            new->prev = p->prev;
+            new->next = p;
+            if(p->prev != NULL) p->prev->next = new;
+            p->prev = new;
+            if(new->prev == NULL) l->first = new;
+            if(new->next == NULL) l->last = new;
+            break;
+        }
+    
+        if(p == l->last) {
+            p->next = new;
+            new->prev = p;
+            new->next = NULL;
+            l->last = new;
+            break;
+        }
+    
+    }
     
     l->size++;
 }
-
+    
 void freeList(List *l) {
     Node * p = NULL;
     Node * tmp = NULL;
-
+    
     for(p = l->first; p != NULL; p = tmp) {
         tmp = p->next;
-        free(p);
+        freeNode(p);
     }
-
-    *l = newList();
+    
+    l->first = NULL;
+    l->last = NULL;
+    l->size = 0;
 }
-
+    
 bool removeList(List *l, char *name) {
     Node * p = NULL;
 
@@ -136,50 +151,78 @@ bool removeList(List *l, char *name) {
 
     return false;
 }
-
+    
 Node *searchList(List *l, char *name) {
     Node * p = NULL;
-
+    
     for(p = l->first; p != NULL; p = p->next) {
         if(strcmp(p->p.name, name) == 0) return p;
     }
-
+    
     return NULL;
 }
-
+    
 int main(void) {
     List phone_book;
     Node *n = NULL;
     Node *tmp, *tmp2, *tmp3;
     char option;
-    char name[SIZE];
-    char phone_number[SIZE];
+    char name[10000];
+    char phone_number[10000];
     int calls;
-
+    
     phone_book = newList();
-
+    
     insertList(&phone_book, "Hermanoteu", "4523-2248", 300);
     insertList(&phone_book, "Ooloneia", "4523-4887", 299);
-
+    
     while(true) {
-        scanf("%c", &option);
-
+        scanf("%c%*c", &option);
+    
         switch (option) {
         case 'I':
-            scanf("%s%s%d", name, phone_number, &calls);
+            scanf("%s %s %d%*c", name, phone_number, &calls);
             insertList(&phone_book, name, phone_number, calls);
             break;
         case 'R':
-            scanf("%s", name);
+            scanf("%s%*c", name);
             removeList(&phone_book, name);
             break;
         case 'L':
-            scanf("%s", name);
+            scanf("%s%*c", name);
             n = searchList(&phone_book, name);
+
             if(n != NULL) n->p.calls++;
+            if(n->prev == NULL) break;
+
+            while(n->p.calls > n->prev->p.calls) {
+                //N é o número que será trocado
+                tmp = n->prev; //Número que será trocado junto com o n
+                tmp2 = n->next; //Posterior do n
+                tmp3 = tmp->prev; //Anterior do tmp
+    
+                //Arruma os ponteiros do n
+                n->next = tmp;
+                n->prev = tmp3;
+    
+                //Arruma os ponteiros do tmp
+                tmp->prev = n;
+                tmp->next = tmp2;
+    
+                //Arruma os ponteiros anteriores e posteriores
+                if(tmp2 != NULL) tmp2->prev = tmp;
+                if(tmp3 != NULL) tmp3->next = n;
+    
+                //Arruma o ponteiro do nó de cabeçalho               
+                if(tmp->next == NULL) phone_book.last = tmp;
+                if(n->prev == NULL) {
+                    phone_book.first = n;
+                    break;
+                }
+            }
+
             break;
-        case 'F' :  
-            sortList(&phone_book); 
+        case 'F':    
             printList(&phone_book);
             freeList(&phone_book);
             return 0;

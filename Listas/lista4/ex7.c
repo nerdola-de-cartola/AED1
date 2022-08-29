@@ -141,7 +141,6 @@ int searchList(List *l, int value1, int value2) {
                 achei_primeiro = true;
                 primeiro_2 = true;
             }
-
         }
     }
 }
