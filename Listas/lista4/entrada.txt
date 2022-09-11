@@ -1,15 +1,5 @@
-R Hermanoteu
-R Ooloneia
-I Casimiro 7777-7777 5  
-I Zelia 8888-8888 4  
-I Machado 9999-9999 3 
-I Bilac 6666-6666 2
-L Machado   
-L Bilac  
-L Zelia   
-L Casimiro   
-L Bilac  
-L Bilac  
-L Bilac  
-L Bilac  
-F
+4
+0 / 4 
+( E / 5 + ( 8 ) ^ U + 4 ) + 7 ^ ( 9 ) * 2   
+5 * 4 / ( M + 8 + T − B * 8 ^ T ^ T  
+Q * H * S / 2 * ( Q / ( J ) ^ Y * C
